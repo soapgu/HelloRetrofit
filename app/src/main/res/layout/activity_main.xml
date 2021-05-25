@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <variable
+            name="dataContext"
+            type="com.soapgu.helloretrofit.viewmodels.MainViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -23,12 +25,14 @@
 
             <Button
                 android:id="@+id/button_new"
+                android:onClick="@{()->dataContext.newRandomPhoto()}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/newphoto" />
 
             <TextView
                 android:id="@+id/tv_photo"
+                android:text="@{dataContext.photoInfo}"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 />

@@ -1,35 +1,24 @@
 package com.soapgu.helloretrofit;
 
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.ViewModelProvider;
 
-import com.orhanobut.logger.Logger;
 import com.soapgu.helloretrofit.databinding.ActivityMainBinding;
-import com.soapgu.helloretrofit.restful.PhotoApiAdapter;
+import com.soapgu.helloretrofit.viewmodels.MainViewModel;
 
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import dagger.hilt.android.AndroidEntryPoint;
 
+@AndroidEntryPoint
 public class MainActivity extends AppCompatActivity {
-
-    private ActivityMainBinding binding;
-    private PhotoApiAdapter apiAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        apiAdapter = new PhotoApiAdapter();
-
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
-
-        binding.buttonNew.setOnClickListener( v -> {
-            apiAdapter.getRandomPhoto()
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe( photo -> binding.tvPhoto.setText( photo.alt_description ),
-                                e -> Logger.e( e, "get randomPhoto error" ));
-        } );
+        MainViewModel viewModel = new ViewModelProvider(this).get( MainViewModel.class );
+        ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        binding.setDataContext( viewModel );
     }
 }

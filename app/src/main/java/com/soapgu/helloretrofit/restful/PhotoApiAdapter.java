@@ -10,13 +10,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class PhotoApiAdapter {
     private final PhotoApi api;
     private static final String client_id = "ki5iNzD7hebsr-d8qUlEJIhG5wxGwikU71nsqj8PcMM";
-    public PhotoApiAdapter(){
-        api = new Retrofit.Builder()
-                .baseUrl("https://api.unsplash.com/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
-                .build()
-                .create( PhotoApi.class );
+
+    public PhotoApiAdapter( Retrofit retrofit ){
+        api = retrofit.create( PhotoApi.class );
     }
 
     public Single<Photo> getRandomPhoto() {
