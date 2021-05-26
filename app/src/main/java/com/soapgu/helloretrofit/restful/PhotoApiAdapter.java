@@ -1,11 +1,12 @@
 package com.soapgu.helloretrofit.restful;
 
+import androidx.core.util.Pair;
+
 import com.soapgu.helloretrofit.models.Photo;
 
 import io.reactivex.rxjava3.core.Single;
+import okhttp3.ResponseBody;
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class PhotoApiAdapter {
     private final PhotoApi api;
@@ -17,5 +18,9 @@ public class PhotoApiAdapter {
 
     public Single<Photo> getRandomPhoto() {
         return this.api.getRandomPhoto( client_id );
+    }
+
+    public Single<Pair<ResponseBody,String>> getImageFile( String url , String photoId ){
+        return Single.zip( this.api.getImageFile(url), Single.just(photoId) , (Pair::create) ) ;
     }
 }

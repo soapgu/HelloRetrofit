@@ -17,24 +17,30 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <Button
                 android:id="@+id/button_new"
-                android:onClick="@{()->dataContext.newRandomPhoto()}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:onClick="@{()->dataContext.newRandomPhoto()}"
                 android:text="@string/newphoto" />
 
             <TextView
                 android:id="@+id/tv_photo"
-                android:text="@{dataContext.photoInfo}"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
-                />
+                android:text="@{dataContext.photoInfo}" />
+
+            <ImageView
+                android:id="@+id/imageView"
+                app:imageBitmap="@{dataContext.bitmap}"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:srcCompat="@tools:sample/avatars"
+                android:contentDescription="@string/app_name" />
 
         </LinearLayout>
 
