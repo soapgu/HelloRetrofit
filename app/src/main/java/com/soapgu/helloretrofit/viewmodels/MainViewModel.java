@@ -39,6 +39,7 @@ public class MainViewModel extends ObservableViewModel {
     }
 
     public void newRandomPhoto(){
+        Logger.i( "---new random photo----" );
         disposables.add( apiAdapter.getRandomPhoto()
                             .subscribe( photo -> this.setPhotoInfo( photo.alt_description ),
                                         e -> Logger.e( e, "get randomPhoto error" )) );
