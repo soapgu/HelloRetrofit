@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
+import com.soapgu.helloretrofit.R;
 import com.soapgu.helloretrofit.models.Photo;
 import com.soapgu.helloretrofit.models.PhotoUrl;
 
@@ -21,7 +22,7 @@ import retrofit2.mock.BehaviorDelegate;
 
 public class MockPhotoApi implements PhotoApi{
     private final BehaviorDelegate<PhotoApi> delegate;
-    private Context context;
+    private final Context context;
 
     public MockPhotoApi(BehaviorDelegate<PhotoApi> service, Application application){
         this.delegate = service;
@@ -39,19 +40,19 @@ public class MockPhotoApi implements PhotoApi{
         url.small = "just mock small";
         url.thumb = "just mock thumb";
         photo.urls = url;
-        return this.delegate.returningResponse(Single.just(photo)).getRandomPhoto(clientId);
+        return this.delegate.returningResponse(photo).getRandomPhoto(clientId);
     }
 
     @Override
     public Single<ResponseBody> getImageFile(String url) {
-        Bitmap bitmap = BitmapFactory.decodeResource(this.context.getResources(),1);
+        Bitmap bitmap = BitmapFactory.decodeResource(this.context.getResources(), R.drawable.picture);
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG , 500 ,stream );
+        bitmap.compress(Bitmap.CompressFormat.JPEG , 100 ,stream );
         byte[] contents = stream.toByteArray();
         ByteArrayInputStream bis = new ByteArrayInputStream(contents);
         Source source = Okio.source(bis);
         BufferedSource bufferedSource = Okio.buffer(source);
         ResponseBody body = new RealResponseBody("image/jpeg",contents.length,bufferedSource);
-        return this.delegate.returningResponse(Single.just(body)).getImageFile(url);
+        return this.delegate.returningResponse(body).getImageFile(url);
     }
 }

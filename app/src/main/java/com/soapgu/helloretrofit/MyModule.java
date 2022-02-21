@@ -1,5 +1,7 @@
 package com.soapgu.helloretrofit;
 
+import android.app.Application;
+
 import com.soapgu.helloretrofit.restful.PhotoApiAdapter;
 
 import javax.inject.Singleton;
@@ -17,6 +19,8 @@ import retrofit2.mock.NetworkBehavior;
 @Module
 @InstallIn(SingletonComponent.class)
 public class MyModule {
+
+    private boolean isMock = true;
 
     @Singleton
     @Provides
@@ -38,7 +42,10 @@ public class MyModule {
     }
 
     @Provides
-    public PhotoApiAdapter providePhotoApiAdapter(Retrofit retrofit){
+    public PhotoApiAdapter providePhotoApiAdapter(Retrofit retrofit, MockRetrofit mockRetrofit, Application application){
+        if( this.isMock ){
+            return new PhotoApiAdapter( mockRetrofit, application );
+        }
         return new PhotoApiAdapter(retrofit);
     }
 }
