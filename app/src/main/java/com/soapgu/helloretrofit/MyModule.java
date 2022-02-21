@@ -11,6 +11,8 @@ import dagger.hilt.components.SingletonComponent;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.mock.MockRetrofit;
+import retrofit2.mock.NetworkBehavior;
 
 @Module
 @InstallIn(SingletonComponent.class)
@@ -23,6 +25,15 @@ public class MyModule {
                 .baseUrl("https://api.unsplash.com/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
+                .build();
+    }
+
+    @Singleton
+    @Provides
+    public MockRetrofit provideMockRetrofit(Retrofit retrofit){
+        NetworkBehavior behavior = NetworkBehavior.create();
+        return new MockRetrofit.Builder(retrofit)
+                .networkBehavior(behavior)
                 .build();
     }
 

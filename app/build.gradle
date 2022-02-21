@@ -43,6 +43,7 @@ dependencies {
     implementation "com.squareup.retrofit2:retrofit:$rootProject.retrofitVersion"
     implementation "com.squareup.retrofit2:converter-gson:$rootProject.retrofitVersion"
     implementation "com.squareup.retrofit2:adapter-rxjava3:$rootProject.retrofitVersion"
+    implementation("com.squareup.retrofit2:retrofit-mock:$rootProject.retrofitVersion")
     implementation "io.reactivex.rxjava3:rxandroid:3.0.0"
     implementation "io.reactivex.rxjava3:rxjava:3.1.1"
     implementation "com.google.dagger:hilt-android:$rootProject.hiltVersion"
