@@ -19,8 +19,7 @@ import retrofit2.mock.NetworkBehavior;
 @Module
 @InstallIn(SingletonComponent.class)
 public class MyModule {
-
-    private boolean isMock = true;
+    private boolean mock = false;
 
     @Singleton
     @Provides
@@ -43,9 +42,7 @@ public class MyModule {
 
     @Provides
     public PhotoApiAdapter providePhotoApiAdapter(Retrofit retrofit, MockRetrofit mockRetrofit, Application application){
-        if( this.isMock ){
-            return new PhotoApiAdapter( mockRetrofit, application );
-        }
-        return new PhotoApiAdapter(retrofit);
+        return new PhotoApiAdapter( retrofit, mockRetrofit, application, mock );
+        //return new PhotoApiAdapter(retrofit);
     }
 }
