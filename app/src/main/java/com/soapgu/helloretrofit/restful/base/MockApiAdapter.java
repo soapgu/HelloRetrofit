@@ -15,11 +15,17 @@ public abstract class MockApiAdapter  <T,V extends T> extends ApiAdapter<T> impl
     }
 
     public T getApi(){
-        return mock ? api : super.getApi();
-    }
-
-    protected void setApi(){
-        this.api = createMockService(this.delegate);
+        if( !mock ){
+            return super.getApi();
+        }
+        if( api == null ){
+            synchronized ( this ){
+                if( api == null ) {
+                    this.api = createMockService(this.delegate);
+                }
+            }
+        }
+        return api;
     }
 
     protected abstract V createMockService( BehaviorDelegate<T> delegate );

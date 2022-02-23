@@ -15,20 +15,14 @@ import retrofit2.mock.BehaviorDelegate;
 import retrofit2.mock.MockRetrofit;
 
 public class PhotoApiAdapter extends MockApiAdapter<PhotoApi,MockPhotoApi> {
-    //private final PhotoApi api;
+
     private Application application;
     private static final String client_id = "ki5iNzD7hebsr-d8qUlEJIhG5wxGwikU71nsqj8PcMM";
 
-    /*
-    public PhotoApiAdapter( Retrofit retrofit ){
-        api = retrofit.create( PhotoApi.class );
-    }
-     */
 
     public PhotoApiAdapter(Retrofit retrofit , MockRetrofit mockRetrofit , Application application , boolean mock){
         super(retrofit,mockRetrofit,PhotoApi.class,mock);
         this.application = application;
-        this.setApi();
     }
 
     public Single<Photo> getRandomPhoto() {
