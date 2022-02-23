@@ -4,9 +4,9 @@ import retrofit2.mock.BehaviorDelegate;
 import retrofit2.mock.MockRetrofit;
 
 public abstract class MockApiAdapter  <T,V extends T> extends ApiAdapter<T> implements ApiAccess<T> {
-    private BehaviorDelegate<T> delegate;
+    private final BehaviorDelegate<T> delegate;
     private T api;
-    private boolean mock;
+    private final boolean mock;
 
     public MockApiAdapter(Retrofit retrofit, MockRetrofit mockRetrofit, Class<T> classOfT , boolean mock){
         super(retrofit,classOfT);
