@@ -16,7 +16,7 @@ import retrofit2.mock.MockRetrofit;
 
 public class PhotoApiAdapter extends MockApiAdapter<PhotoApi,MockPhotoApi> {
 
-    private Application application;
+    private final Application application;
     private static final String client_id = "ki5iNzD7hebsr-d8qUlEJIhG5wxGwikU71nsqj8PcMM";
 
 
