@@ -69,32 +69,26 @@ public class MockPhotoApi implements PhotoApi{
     }
 
     private InputStream convertStream( ByteArrayOutputStream source ) throws IOException {
-        int length = source.size();
         PipedInputStream in = new PipedInputStream();
         PipedOutputStream out = new PipedOutputStream(in);
-        new Thread(new Runnable() {
-            public void run () {
+        new Thread(() -> {
+            try {
+                // write the original OutputStream to the PipedOutputStream
+                // note that in order for the below method to work, you need
+                // to ensure that the data has finished writing to the
+                // ByteArrayOutputStream
+                source.writeTo(out);
+            }
+            catch (IOException e) {
+                // logging and exception handling should go here
+            }
+            finally {
+                // close the PipedOutputStream here because we're done writing data
+                // once this thread has completed its run
                 try {
-                    // write the original OutputStream to the PipedOutputStream
-                    // note that in order for the below method to work, you need
-                    // to ensure that the data has finished writing to the
-                    // ByteArrayOutputStream
-                    source.writeTo(out);
-                }
-                catch (IOException e) {
-                    // logging and exception handling should go here
-                }
-                finally {
-                    // close the PipedOutputStream here because we're done writing data
-                    // once this thread has completed its run
-                    if (out != null) {
-                        // close the PipedOutputStream cleanly
-                        try {
-                            out.close();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
+                    out.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             }
         }).start();
@@ -102,11 +96,11 @@ public class MockPhotoApi implements PhotoApi{
     }
 
     private Single<ResponseBody> fakeException(Exception exception){
-        return this.delegate.returning(Calls.failure( new Exception("on no!!!") )).getImageFile("");
+        return this.delegate.returning(Calls.failure( exception )).getImageFile("");
     }
 
     private Single<ResponseBody> getImageFile404(String url){
-        Response response = Response.error(404,ResponseBody.create(MediaType.parse("application/json"),""));
+        Response<ResponseBody> response = Response.error(404,ResponseBody.create(MediaType.parse("application/json"),""));
         return this.delegate.returning(Calls.response(response)).getImageFile(url);
     }
 
